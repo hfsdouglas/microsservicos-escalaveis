@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch --no-warnings --env-file=.env --clear-screen=false src/http/server.ts"
+    "dev": "tsx watch --no-warnings --env-file=.env src/http/server.ts"
   },
   "keywords": [],
   "author": "",
