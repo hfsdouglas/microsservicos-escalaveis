@@ -5,6 +5,7 @@ import { serializerCompiler, validatorCompiler, type ZodTypeProvider } from "fas
 
 import { db } from "../lib/drizzle.ts";
 import { schema } from "../db/schema/index.ts";
+import { dispatchOrderCreated } from "../broker/messages/order-created.ts";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -29,14 +30,25 @@ app.post('/orders', {
         })
     }
 
-    await db.insert(schema.orders).values({
-        clientId,
-        amount
+    const order = await db
+        .insert(schema.orders)
+        .values({
+            clientId,
+            amount
+        })
+        .returning()
+
+    dispatchOrderCreated({
+        orderId: order[0].id, 
+        amount: Number(order[0].amount), 
+        client: {
+            id: order[0].clientId
+        }
     })
 
     return reply.status(201).send()
 })
 
-app.listen({ port: 3333 }).then(() => {
-    console.log("HTTP Server is running! 🚀")
+app.listen({ port: 3000 }).then(() => {
+    console.log("[Orders] HTTP Server is running! 🚀")
 })
