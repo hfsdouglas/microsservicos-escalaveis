@@ -1,5 +1,28 @@
 # Microsserviços Escaláveis
 
+## 📖 Sobre o Projeto
+
+Este é um projeto demonstrativo que implementa uma arquitetura de microsserviços escalável, desenvolvido para ilustrar conceitos de comunicação assíncrona entre serviços, observabilidade distribuída e separação de responsabilidades. O sistema simula um e-commerce onde pedidos são criados em um microsserviço e processados por outro microsserviço de faturas através de mensageria.
+
+### 🛠️ Tecnologias Utilizadas
+
+**Backend (Node.js/TypeScript):**
+- **Fastify** - Framework web rápido e eficiente
+- **Drizzle ORM** - ORM type-safe para PostgreSQL
+- **PostgreSQL** - Banco de dados relacional
+- **RabbitMQ** - Broker de mensagens para comunicação assíncrona
+- **OpenTelemetry** - Instrumentação para observabilidade
+- **Zod** - Validação de schemas TypeScript
+- **AMQP** - Protocolo de mensageria
+
+**Infraestrutura:**
+- **Docker & Docker Compose** - Containerização e orquestração
+- **Jaeger** - Sistema de tracing distribuído
+- **TypeScript** - Tipagem estática
+- **ESM Modules** - Módulos ES6 nativos
+
+## 🏗️ Arquitetura
+
 Este projeto implementa uma arquitetura de microsserviços escalável com os seguintes componentes:
 
 - **app-orders**: Microsserviço de pedidos (porta 3000)
