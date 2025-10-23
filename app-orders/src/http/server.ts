@@ -1,11 +1,15 @@
+import '@opentelemetry/auto-instrumentations-node/register'
+
 import z from "zod";
 import fastify from "fastify";
 import { eq } from "drizzle-orm";
 import { serializerCompiler, validatorCompiler, type ZodTypeProvider } from "fastify-type-provider-zod";
+import { trace } from '@opentelemetry/api'
 
 import { db } from "../lib/drizzle.ts";
 import { schema } from "../db/schema/index.ts";
 import { dispatchOrderCreated } from "../broker/messages/order-created.ts";
+import { tracer } from '../tracer/tracer.ts'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -37,6 +41,8 @@ app.post('/orders', {
             amount
         })
         .returning()
+
+    trace.getActiveSpan()?.setAttribute('order_id', order[0].id)
 
     dispatchOrderCreated({
         orderId: order[0].id, 
